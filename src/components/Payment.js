@@ -4,22 +4,21 @@ import { db } from '../firebase';
 import { updateDoc,query,collection,where,getDocs,doc, arrayUnion, setDoc } from 'firebase/firestore/lite';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Problems } from './problems';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 export const Payment=()=>{
     const loc=useLocation();
     const nav=useNavigate();
     useEffect(()=>{
-      
-            if(!loc.state || Object.keys(loc.state).length!==5){
-                nav(-1);
-            }
-
-    },[loc.pathname])
+            if(!loc.state || Object.keys(loc.state).length!==6){
+                nav("/",{});
+           }
+   },[loc.pathname])
     const data=[
                 {heading:"Wallet",image:"wallet.png",text:"Junkee Wallet(Coming soon)",id:"wallet"},
                 {heading:"COD or COP",image:"payment-method.png",text:"Cash on Pick-Up(or)Delivery",id:"COD"},
                 {heading:"UPI",image:"upi 1.png",text:"Upi number",id:"UPI"}
             ]
+    const [book,setBook]=useState(false);
     return (
         <div id="payment" style={{height:'70vh',display:'flex',flexDirection:'column'}}>
             <div style={{display:'flex',flexDirection:'row',flexGrow:1}}>
@@ -33,7 +32,7 @@ export const Payment=()=>{
                     onClick={(e)=>{
                         e.preventDefault();
                         loc.state.paymentmode=e.currentTarget.id;
-                               
+                        console.log(loc.state);   
                     }}
                     >
                     <div>{it.heading}</div>
@@ -51,32 +50,44 @@ export const Payment=()=>{
                 </div>)}    
             </div>
             <div style={{display:'flex',flexDirection:'row',flexGrow:1.5,justifyContent:'center',alignItems:'center'}}>
-                <button onClick={async(e)=>{
-                    try{
+            { !book?(<button onClick={async(e)=>{
                     e.preventDefault();
-                    if(loc.state && Object.keys(loc.state).length===6){
-                        const q=query(collection(db, "clients"), where("contact", "==", loc.state.contact));
-                        const ans=await getDocs(q);
-                        const paymentid=ans.docs[0].data().orders.length+1+ans.docs[0].id;
-                        const today=new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' });
-                        const data={...loc.state,paymentid:paymentid,sch:today}
-                        delete data.name;
-                        delete data.contact;
-                        const clientRef = doc(db, 'clients', ans.docs[0].id);
-                        await updateDoc(clientRef,{orders:arrayUnion(data)}).then(ans=>{
-                            nav('/Booked',{state:{name:loc.state.name,contact:loc.state.contact,
-                                paymentid}});
-                        }).catch(e=>{
-                            alert("Please try later...");
-                        })
-                        
-                    }
-                    else{
-                    alert("Choose UPI/COD or try to book from the first");
-                    }}catch{
-                        alert("Try again in sometime, there is an issue in server...");
-                    }
-                }}>Book Pick-Up</button>
+                    (loc.state.hasOwnProperty("paymentmode"))?
+                        setBook(true):alert("Please select a payment mode COD/UPI")   
+                    
+                }}>Book Pick-Up</button>):(
+                    <div style={{display:'flex',justifyContent:'center',flexDirection:'column',textAlign:'center'}}>
+                        <h3>Terms and Conditions</h3>
+                        <p>I agree to the policies of Junkee and I willingly place this order.</p>
+                        <div><button style={{width:'50%'}} onClick={async(e)=>{
+                            try{
+                                e.preventDefault();
+                                if(Object.keys(loc.state).length===7){
+                                    const q=query(collection(db, "clients"), where("contact", "==", loc.state.contact));
+                                    const ans=await getDocs(q);
+                                    const paymentid=ans.docs[0].data().orders.length+1+ans.docs[0].id;
+                                    const today=new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' });
+                                    const data={...loc.state,paymentid:paymentid,sch:today}
+                                    delete data.name;
+                                    delete data.contact;
+                                    const clientRef = doc(db, 'clients', ans.docs[0].id);
+                                    await updateDoc(clientRef,{orders:arrayUnion(data)}).then(ans=>{
+                                        nav('/Booked',{state:{name:loc.state.name,contact:loc.state.contact,
+                                            paymentid}});
+                                    }).catch(e=>{
+                                        alert("Please try later...");
+                                    })
+                                    
+                                }
+                                else{
+                                alert("Choose UPI/COD or try to book from the first");
+                                }}catch{
+                                    alert("Try again in sometime, there is an issue in server...");
+                                }
+                        }}>Accept</button></div>
+                    </div>
+                )
+            }
             </div>
             <Problems />
         </div>

@@ -19,14 +19,14 @@ const icons=[{icon:<AiOutlineFacebook size='90%' color='white'/>,cl:"https://ins
            )}
           </div>
           <div>
-            After scheduling a scra, we provide <span style={{color:"green"}}>Free doorstep pickup service</span>
+            After scheduling a scrap, we provide <span style={{color:"green"}}>Free doorstep pickup service</span>
             of 40+ recyclables and <span style={{color:'green'}}>get Cash for your trash</span> by this
             you can contribute towards the <span style={{color:'green'}}>Green Environment</span>.
           </div>
         </div>
         <div className='md1'>
             <div ><h3>Company</h3></div>
-            <div onClick={(e)=>{nav("/",{replace:true})}}>Home</div>
+            <div onClick={(e)=>{e.preventDefault();(document.getElementById("globname").innerText.length)?(nav("/Admin",{state:{name:document.getElementById("globname").innerText,contact:document.getElementById("globcon").innerText}})):(nav("/"));}}>Home</div>
             <div><a href="/Services">Services</a></div>
             <div><a href="/PartnerWithUs">Contact Us</a></div>
         </div>

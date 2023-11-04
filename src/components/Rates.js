@@ -65,7 +65,7 @@ const other=[{link:"carr",data:"CAR",rate:"20000",pic:"1"},
                 </div>
             </div>
             <div className='ratelist'>
-                <div style={{display:'flex',flexDirection:'column',flexWrap:'wrap',width:'100%',minHeight:'35%',maxHeight:'110%'}} >
+                <div style={{display:'flex',flexDirection:'column',flexWrap:'wrap',width:'100%',minHeight:'35%',maxHeight:'110%',textAlign:'center'}} >
                     <div><h4>Normal Recyclables</h4></div>
                         <div style={{display:'flex',flexDirection:'row',flexWrap:'wrap',gap:'10%',width:'100%'}}>
                         { normalRec.map(it=>   

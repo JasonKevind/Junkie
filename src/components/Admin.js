@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export const Admin=()=>{
     const loc=useLocation();
     const nav=useNavigate();
-    useEffect(()=>{
+   useEffect(()=>{
         if(!loc.state|| Object.keys(loc.state).length<2){
             nav("/");
         }
@@ -21,10 +21,11 @@ export const Admin=()=>{
     const middle=[{img:"pickup",head:"SCHEDULE A PICK-UP",info:"Want to Book a pick-up with us? we will help you clear your scrap.",to:"/Dates"},
     {img:"preview",head:'How Junkee works ?',info:"Want to know how we work? check us out here.",to:"/WorkProcess"}
 ]
+   console.log(document.getElementById("globname"));
     return (
         <div className="Admin">
             <div style={{display:'flex',flexGrow:0.3,fontFamily:"Inter"}}>
-                <div >
+                <div>
                     Home
                 </div>
                 <div>
@@ -82,6 +83,8 @@ export const Admin=()=>{
                     <div style={{display:'flex',flexDirection:'row',backgroundColor:'whitesmoke',padding:1,borderRadius:'5px',alignItems:'center',
                     height:'50%',padding:5,width:'40%',cursor:'pointer'}} onClick={(e)=>{
                         e.preventDefault();
+                        document.getElementById("globname").innerText="";
+                        document.getElementById("globcon").innerText="";
                         nav(loc.pathname,{});
                     }}>
                        <div style={{display:'flex',flexBasis:'30%',justifyContent:'center'}}>

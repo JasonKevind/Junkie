@@ -37,7 +37,7 @@ export const Booked=()=>{
           
                 <div style={{display:'flex',flexBasis:'50%'}}>
                     <button style={{backgroundColor:'#E1C16E',border:'none',width:'83%',height:'5vh',borderRadius:'5px',fontSize:'70%',
-                    color:'whitesmoke'}} onClick={()=>{nav(loc.pathname,{})}}>Home</button>
+                    color:'whitesmoke'}} onClick={()=>{nav("/Admin",{state:{name:loc.state.name,contact:loc.state.contact}})}}>Home</button>
                 </div>
 
                 <div style={{display:'flex',flexBasis:'50%'}}>

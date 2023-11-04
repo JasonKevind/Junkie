@@ -63,7 +63,11 @@ useEffect(()=>{
        </button> 
       </div>
       <div className="RD" id="RD">
+        <div>
+          <button onClick={(e)=>{e.preventDefault();(document.getElementById("globname").innerText.length)?(nav("/Admin",{state:{name:document.getElementById("globname").innerText,contact:document.getElementById("globcon").innerText}})):(nav("/"));}}>Home</button>
+        </div>
         <div><button onClick={(e)=>{e.preventDefault();nav("/PartnerWithUs");}}>Partner With Us</button></div>
+       
         <div >     
           <button className="dropbtn" onClick={(e) =>{e.preventDefault();nav("/Services")}}>Services</button>
           
@@ -74,6 +78,7 @@ useEffect(()=>{
         <div >
           <button className="dropbtn" onClick={(e)=>{e.preventDefault();nav("/WorkProcess")}}>How it works</button> 
         </div>
+        
       </div> 
     </div>
   );
